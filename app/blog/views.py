@@ -5,7 +5,7 @@ from blog.forms import PostForm, CommentForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.view.generic import (
+from django.views.generic import (
     TemplateView,
     ListView,
     DetailView,
@@ -70,7 +70,7 @@ def post_publish(request, pk):
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
-    if request.method == 'Post':
+    if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
@@ -94,4 +94,4 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     post_pk = comment.post.pk
     comment.delete()
-    return redirect('post_detail', pk=post.pk)
+    return redirect('post_detail', pk=post_pk)
